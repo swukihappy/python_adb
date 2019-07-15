@@ -13,9 +13,19 @@ packagename_hint="com.yuncheapp.android.pearl"
 
 
 argv_len=len(sys.argv)
-#accept=sys.argv[1]
-accept=sys.argv[1]
+if argv_len > 1:
+	accept=sys.argv[1]
+else:
+	accept=""
+
+#help文档
+
+def adb_help():
+	print("-- clear：清除缓存信息;\n-- scr：截取手机屏幕，并保存至电脑;\n-- get_act：获取顶层activity;\n-- log：获取日志\n")
+
+
 # 检查设备是否连接成功
+
 def check_connect():
 	connect_flag=False
 	q=os.popen("adb get-state").read()
@@ -37,11 +47,13 @@ def check_packagename():
 		packagename=packagename_hint
 		return packagename
 
+## 函数调用
 
 time =str(time.time())
 connect_flag=check_connect()
 packagename=check_packagename()
-
+if accept == "help":
+	adb_help()
 
 if connect_flag==True:
 	# 清除缓存信息
@@ -65,6 +77,4 @@ if connect_flag==True:
 		os.system("adb logcat > "+remote_path_log+"alllog"+time+".txt")
 		os.system("adb logcat *:E> "+remote_path_log+"Elog"+time+".txt")
 		os.system("adb logcat *：E | grep "+packagename+"> "+remote_path_log+"Onelog"+time+".txt")
-	elif accept == "help":
-		print("-- clear：清除缓存信息;\n-- scr：截取手机屏幕，并保存至电脑;\n-- get_act：获取顶层activity;\n-- log：获取日志\n")
 
