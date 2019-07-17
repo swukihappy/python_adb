@@ -21,7 +21,7 @@ else:
 #help文档
 
 def adb_help():
-	print("-- clear：清除缓存信息;\n-- scr：截取手机屏幕，并保存至电脑;\n-- get_act：获取顶层activity;\n-- log：获取日志\n")
+	print("-- clear：清除缓存信息;\n-- scr：截取手机屏幕，并保存至电脑;\n-- get_act：获取顶层activity;\n-- log：获取日志\n;\n-- info：获取设备did")
 
 
 # 检查设备是否连接成功
@@ -77,4 +77,9 @@ if connect_flag==True:
 		os.system("adb logcat > "+remote_path_log+"alllog"+time+".txt")
 		os.system("adb logcat *:E> "+remote_path_log+"Elog"+time+".txt")
 		os.system("adb logcat *：E | grep "+packagename+"> "+remote_path_log+"Onelog"+time+".txt")
+	elif accept == "info":
+		did=os.popen("adb devices").read()
+		print("device_info\n{devices_info}".format(devices_info=did))
+	else:
+		print("please check command")
 
